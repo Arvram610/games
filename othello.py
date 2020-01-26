@@ -231,6 +231,33 @@ class Playfield:
             except:
                 pass
 
+            try:
+                if self.bricks[position_y+1][position_y+1].side == not_side:  # diagonal -x +y
+                    if position_y+1 > x_positive:
+                        y = position_y + 1+1
+
+                    else:
+                        y = position_y+1 + 1
+
+                    for i in range(y):
+                        if self.bricks[position_y+1+i][position_x + (i + 1)].side == not_side:
+                            preliminary_list.append(self.bricks[position_y+(i + 1)][position_x + (i + 1)])
+
+                        elif self.bricks[position_y+(i + 1)][position_x + (i + 1)].side == side and not position_x + (
+                                i + 1) == position_x + 1 and not position_y+(i + 1) == position_y + 1:
+                            for j in preliminary_list:
+                                print(j)
+                                list.append(j)
+                            preliminary_list = []
+                            x = True
+                            break
+
+                        else:
+                            preliminary_list = []
+                            break
+            except:
+                pass
+
             if x:  # byt spelares tur
                 list.append(self.bricks[position_y][position_x])
                 if self.turn == "p1":
@@ -238,6 +265,8 @@ class Playfield:
 
                 else:
                     self.turn = "p1"
+            else:
+                print("That's not a valid move.")
 
             for i in list:
                 i.side = side
@@ -292,7 +321,7 @@ class Playfield:
                     if self.bricks[self.position_y][self.position_x].pchangeble == False:
                         clearscreen()
                         self.print()
-                        print("That is not a valid placement")
+                        print("That's not a valid move.")
 
                     if self.bricks[self.position_y][self.position_x].pchangeble == True:
                         self.player_change(self.position_x, self.position_y, self.turn)
