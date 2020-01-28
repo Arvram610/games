@@ -1,8 +1,11 @@
+
 import os
 
 
 def clearscreen():
-    os.system('CLS')
+    pass
+
+
 
 
 class Brick:
@@ -82,7 +85,7 @@ class Playfield:
                     elif self.bricks[position_y - (i + 1)][position_x - (i + 1)].side == side and not position_x - (
                             i + 1) == position_x - 1 and not position_y - (i + 1) == position_y - 1:
                         for j in preliminary_list:
-                            print(j)
+
                             list.append(j)
                         preliminary_list = []
                         x = True
@@ -144,7 +147,7 @@ class Playfield:
                             break
 
                         else:
-                            print("hello3")
+
                             preliminary_list = []
                             break
             except:
@@ -205,7 +208,7 @@ class Playfield:
                         elif self.bricks[position_y+(i + 1)][position_x - (i + 1)].side == side and not position_x - (
                                 i + 1) == position_x - 1 and not position_y+(i + 1) == position_y + 1:
                             for j in preliminary_list:
-                                print(j)
+
                                 list.append(j)
                             preliminary_list = []
                             x = True
@@ -227,7 +230,7 @@ class Playfield:
                         elif self.bricks[position_y+(i + 1)][position_x + (i + 1)].side == side and not position_x + (
                                 i + 1) == position_x + 1 and not position_y+(i + 1) == position_y + 1:
                             for j in preliminary_list:
-                                print(j)
+
                                 list.append(j)
                             preliminary_list = []
                             x = True
@@ -397,7 +400,7 @@ class Playfield:
                         elif self.bricks[position_y+(i + 1)][position_x - (i + 1)].side == side and not position_x - (
                                 i + 1) == position_x - 1 and not position_y+(i + 1) == position_y + 1:
                             for j in preliminary_list:
-                                print(j)
+
                                 list.append(j)
                             preliminary_list = []
                             x = True
@@ -469,17 +472,20 @@ class Playfield:
 
 
         while self.game_on:
-            try:
-                for i in 8:
-                    for j in 8:
+            #try:
+                self.list=[]
+                for i in range(8):
+                    for j in range(8):
                         self.checkifgameon(i,j,self.turn)
 
                 if len(self.list)==0:
                     self.fails+=1
                     if self.turn == "p1":
                         self.turn = "p2"
+                        print("No possible turns for player 1, now player 2")
                     else:
-                        self.turn = "p1"
+                        self.turn = "p2"
+                        print("No possible turns for player 2, now player 1")
 
                 elif self.fails==2:
                     self.exit_count()
@@ -514,10 +520,10 @@ class Playfield:
 
                         if self.bricks[self.position_y][self.position_x].pchangeble == True:
                             self.player_change(self.position_x, self.position_y, self.turn)
-            except:
-                clearscreen()
-                self.print()
-                print("oops, something went wrong...")
+            #except:
+             #   clearscreen()
+              #  self.print()
+               # print("oops, something went wrong...")
 
 
 x = Playfield(8, 8)
