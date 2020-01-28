@@ -3,7 +3,7 @@ import os
 
 
 def clearscreen():
-    pass
+    print("\n"*100)
 
 
 
@@ -112,7 +112,7 @@ class Playfield:
                     else:
                         preliminary_list = []
                         break
-            print(position_y + 1)
+
             if self.bricks[y_negative][position_x].side == not_side:  # negative y
 
                 for i in range(8):
@@ -221,7 +221,7 @@ class Playfield:
                 pass
 
             try:
-                if self.bricks[position_y+1][position_y+1].side == not_side:  # diagonal +x +y
+                if self.bricks[position_y+1][position_x+1].side == not_side:  # diagonal +x +y
 
                     for i in range(8):
                         if self.bricks[position_y+1+i][position_x + (i + 1)].side == not_side:
@@ -277,7 +277,7 @@ class Playfield:
                     elif self.bricks[position_y - (i + 1)][position_x - (i + 1)].side == side and not position_x - (
                             i + 1) == position_x - 1 and not position_y - (i + 1) == position_y - 1:
                         for j in preliminary_list:
-                            print(j)
+
                             list.append(j)
                         preliminary_list = []
                         x = True
@@ -304,7 +304,7 @@ class Playfield:
                     else:
                         preliminary_list = []
                         break
-            print(position_y + 1)
+
             if self.bricks[y_negative][position_x].side == not_side:  # negative y
 
                 for i in range(8):
@@ -339,7 +339,7 @@ class Playfield:
                             break
 
                         else:
-                            print("hello3")
+
                             preliminary_list = []
                             break
             except:
@@ -413,16 +413,18 @@ class Playfield:
                 pass
 
             try:
-                if self.bricks[position_y+1][position_y+1].side == not_side:  # diagonal +x +y
+                if self.bricks[position_y+1][position_x+1].side == not_side:  # diagonal +x +y
 
                     for i in range(8):
                         if self.bricks[position_y+1+i][position_x + (i + 1)].side == not_side:
+
                             preliminary_list.append(self.bricks[position_y+(i + 1)][position_x + (i + 1)])
 
                         elif self.bricks[position_y+(i + 1)][position_x + (i + 1)].side == side and not position_x + (
                                 i + 1) == position_x + 1 and not position_y+(i + 1) == position_y + 1:
+
                             for j in preliminary_list:
-                                print(j)
+
                                 list.append(j)
                             preliminary_list = []
                             x = True
@@ -430,6 +432,7 @@ class Playfield:
 
                         else:
                             preliminary_list = []
+
                             break
             except:
                 pass
@@ -467,12 +470,13 @@ class Playfield:
             list = list + "\n"
         print(list)
     def exit_count(self):
-        pass
+        self.game_on=False
+
     def play(self):
 
 
         while self.game_on:
-            #try:
+            try:
                 self.list=[]
                 for i in range(8):
                     for j in range(8):
@@ -520,10 +524,24 @@ class Playfield:
 
                         if self.bricks[self.position_y][self.position_x].pchangeble == True:
                             self.player_change(self.position_x, self.position_y, self.turn)
-            #except:
-             #   clearscreen()
-              #  self.print()
-               # print("oops, something went wrong...")
+            except:
+                clearscreen()
+                self.print()
+                print("oops, something went wrong...")
+        p1_point = 0
+        p2_point = 0
+        for i in range(8):
+            for j in range(8):
+                if self.bricks[i][j].side == "•":
+                    p1_point+=1
+                if self.bricks[i][j].side =="○":
+                    p2_point+=1
+        print(self.p1_name+ " Got "+ p1_point+ " points.")
+        print(self.p2_name + " Got " + p2_point + " points.")
+        if p1_point<p2_point:
+            print("Player 2 wins")
+        else:
+            print("Player 1 wins")
 
 
 x = Playfield(8, 8)
