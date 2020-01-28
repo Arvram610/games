@@ -2,9 +2,13 @@
 import os
 
 
-def clearscreen():
-    print("\n"*100)
-
+def clearscreen(numlines=100):
+  if os.name == "posix":
+    os.system('clear')
+  elif os.name in ("nt", "dos", "ce"):
+    os.system('CLS')
+  else:
+    print('\n' * numlines)
 
 
 
@@ -16,6 +20,7 @@ class Brick:
 
 class Playfield:
     def __init__(self, height, length):
+
         self.list=[]
         self.fails=0
         self.game_on = True
@@ -23,7 +28,7 @@ class Playfield:
         self.p1_name = self.ask
         self.ask = input("Input player two name: ")
         self.p2_name = self.ask
-        self.turn = "p1"
+        self.turn = self.p1_name
         self.height = height
         self.length = length
         self.board = []
@@ -60,7 +65,7 @@ class Playfield:
         self.bricks[position_y][position_x].pchangeble = False
 
     def checkifgameon(self,position_x,position_y,player):
-        if player == "p1":
+        if player == self.p1_name:
             side = "•"
             not_side = "○"
 
@@ -243,7 +248,9 @@ class Playfield:
                 pass
 
             if x:  # byt spelares tur
-                self.list.append(self.bricks[position_y][position_x])
+               # print(str(position_x+1)+str(position_y+1)) # Debug tool
+                if self.bricks[position_y][position_x].pchangeble:
+                   self.list.append(self.bricks[position_y][position_x])
 
 
 
@@ -252,7 +259,7 @@ class Playfield:
 
 
     def player_change(self, position_x, position_y, player):
-        if player == "p1":
+        if player == self.p1_name:
             side = "•"
             not_side = "○"
 
@@ -289,11 +296,11 @@ class Playfield:
 
             if self.bricks[position_y][x_negative].side == not_side:  # negative x
                 for i in range(8):
-                    if self.bricks[position_y][x_negative - i].side == not_side:
+                    if self.bricks[position_y][position_x-1-i].side == not_side:
 
                         preliminary_list.append(self.bricks[position_y][position_x - (i + 1)])
 
-                    elif self.bricks[position_y][x_negative - i].side == side and not position_x - i == position_x - 0:
+                    elif self.bricks[position_y][position_x-1-i].side == side and not position_x - i == position_x - 0:
                         for j in preliminary_list:
                             list.append(j)
                             x = True
@@ -439,11 +446,11 @@ class Playfield:
 
             if x:  # byt spelares tur
                 list.append(self.bricks[position_y][position_x])
-                if self.turn == "p1":
-                    self.turn = "p2"
+                if self.turn == self.p1_name:
+                    self.turn = self.p2_name
 
                 else:
-                    self.turn = "p1"
+                    self.turn = self.p1_name
             else:
                 print("That's not a valid move.")
 
@@ -482,21 +489,23 @@ class Playfield:
                     for j in range(8):
                         self.checkifgameon(i,j,self.turn)
 
-                if len(self.list)==0:
-                    self.fails+=1
-                    if self.turn == "p1":
-                        self.turn = "p2"
-                        print("No possible turns for player 1, now player 2")
-                    else:
-                        self.turn = "p2"
-                        print("No possible turns for player 2, now player 1")
-
-                elif self.fails==2:
+                if self.fails==2:
                     self.exit_count()
 
+                elif len(self.list)==0:
+                    self.fails+=1
+                    if self.turn == self.p1_name:
+                        self.turn = self.p2_name
+                        print("No possible turns for player 1, now player 2")
+                    else:
+                        self.turn = self.p1_name
+                        print("No possible turns for player 2, now player 1")
+
+
                 else:
-                    ask = input(self.turn + " input coordinates (x and y, seperate with \",\"): ")
-                    if ask == "DeBuG":
+                    ask = input(self.turn + "'s turn. Input coordinates (x and y) !!! seperate with \",\" !!!: ")
+                    self.fails=0
+                    if ask == "DeBuG": #Debug tool
                         ask = input(self.turn + "input coordinates (x and y, seperate with \",\" )debug: ")
                         ask = ask.replace(" ", "")
                         ask = ask.split(",")
@@ -528,6 +537,7 @@ class Playfield:
                 clearscreen()
                 self.print()
                 print("oops, something went wrong...")
+        clearscreen()
         p1_point = 0
         p2_point = 0
         for i in range(8):
@@ -536,12 +546,12 @@ class Playfield:
                     p1_point+=1
                 if self.bricks[i][j].side =="○":
                     p2_point+=1
-        print(self.p1_name+ " Got "+ p1_point+ " points.")
-        print(self.p2_name + " Got " + p2_point + " points.")
+        print(self.p1_name+ " Got "+ str(p1_point)+ " points.")
+        print(self.p2_name + " Got " + str(p2_point) + " points.")
         if p1_point<p2_point:
-            print("Player 2 wins")
+            print(self.p2_name+" wins!")
         else:
-            print("Player 1 wins")
+            print(self.p1_name+" wins!")
 
 
 x = Playfield(8, 8)
