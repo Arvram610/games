@@ -3,11 +3,19 @@ import os
 
 
 def clearscreen(numlines=100):
+  """Clear the console.
+numlines is an optional argument used only as a fall-back.
+"""
+# Thanks to Steven D'Aprano, http://www.velocityreviews.com/forums
+
   if os.name == "posix":
+    # Unix/Linux/MacOS/BSD/etc
     os.system('clear')
   elif os.name in ("nt", "dos", "ce"):
+    # DOS/Windows
     os.system('CLS')
   else:
+    # Fallback for other operating systems.
     print('\n' * numlines)
 
 
@@ -81,60 +89,69 @@ class Playfield:
             x_positive = 8 - position_x
             x_negative = position_x -1
             y_negative = position_y -1
+            try:
+                if self.bricks[y_negative][x_negative].side == not_side:  # diagonal -x -y
+                    for i in range(8):
+                        if self.bricks[position_y - (i + 1)][position_x - (i + 1)].side == not_side:
+                            preliminary_list.append(self.bricks[position_y - (i + 1)][position_x - (i + 1)])
 
-            if self.bricks[y_negative][x_negative].side == not_side:  # diagonal -x -y
-                for i in range(8):
-                    if self.bricks[position_y - (i + 1)][position_x - (i + 1)].side == not_side:
-                        preliminary_list.append(self.bricks[position_y - (i + 1)][position_x - (i + 1)])
+                        elif self.bricks[position_y - (i + 1)][position_x - (i + 1)].side == side and not position_x - (
+                                i + 1) == position_x - 1 and not position_y - (i + 1) == position_y - 1:
+                            for j in preliminary_list:
 
-                    elif self.bricks[position_y - (i + 1)][position_x - (i + 1)].side == side and not position_x - (
-                            i + 1) == position_x - 1 and not position_y - (i + 1) == position_y - 1:
-                        for j in preliminary_list:
-
-                            list.append(j)
-                        preliminary_list = []
-                        x = True
-                        break
-
-                    else:
-                        preliminary_list = []
-                        break
-
-            if self.bricks[position_y][x_negative].side == not_side:  # negative x
-                for i in range(8):
-                    if self.bricks[position_y][x_negative - i].side == not_side:
-
-                        preliminary_list.append(self.bricks[position_y][position_x - (i + 1)])
-
-                    elif self.bricks[position_y][x_negative - i].side == side and not position_x - i == position_x - 0:
-                        for j in preliminary_list:
-                            list.append(j)
+                                list.append(j)
+                            preliminary_list = []
                             x = True
+                            break
 
-                        preliminary_list = []
-                        break
+                        else:
+                            preliminary_list = []
+                            break
+            except:
+                preliminary_list = []
 
-                    else:
-                        preliminary_list = []
-                        break
+            try:
 
-            if self.bricks[y_negative][position_x].side == not_side:  # negative y
+                if self.bricks[position_y][x_negative].side == not_side:  # negative x
+                    for i in range(8):
+                        if self.bricks[position_y][x_negative - i].side == not_side:
 
-                for i in range(8):
-                    if self.bricks[y_negative-i][position_x].side == not_side:
-                        preliminary_list.append(self.bricks[position_y - (i + 1)][position_x])
+                            preliminary_list.append(self.bricks[position_y][position_x - (i + 1)])
 
-                    elif self.bricks[y_negative-i][position_x].side == side and not position_y-i == position_y-0:
-                        for j in preliminary_list:
-                            list.append(j)
-                            x = True
+                        elif self.bricks[position_y][x_negative - i].side == side and not position_x - i == position_x - 0:
+                            for j in preliminary_list:
+                                list.append(j)
+                                x = True
 
-                        preliminary_list = []
-                        break
+                            preliminary_list = []
+                            break
 
-                    else:
-                        preliminary_list = []
-                        break
+                        else:
+                            preliminary_list = []
+                            break
+            except:
+                preliminary_list = []
+            try:
+
+                    if self.bricks[y_negative][position_x].side == not_side:  # negative y
+
+                        for i in range(8):
+                            if self.bricks[y_negative-i][position_x].side == not_side:
+                                preliminary_list.append(self.bricks[position_y - (i + 1)][position_x])
+
+                            elif self.bricks[y_negative-i][position_x].side == side and not position_y-i == position_y-0:
+                                for j in preliminary_list:
+                                    list.append(j)
+                                    x = True
+
+                                preliminary_list = []
+                                break
+
+                            else:
+                                preliminary_list = []
+                                break
+            except:
+                preliminary_list = []
             try:
                 if self.bricks[y_negative][position_x+1].side == not_side:  # diagonal +x -y
 
@@ -156,7 +173,7 @@ class Playfield:
                             preliminary_list = []
                             break
             except:
-                pass
+                preliminary_list = []
 
             try:
                 if self.bricks[position_y][position_x+1].side == not_side:  # positive x
@@ -179,7 +196,7 @@ class Playfield:
                             break
 
             except:
-                pass
+                preliminary_list = []
 
             try:
                 if self.bricks[position_y+1][position_x].side == not_side:  # positive y
@@ -201,7 +218,7 @@ class Playfield:
                             break
 
             except:
-                pass
+                preliminary_list = []
 
             try:
                 if self.bricks[position_y+1][x_negative].side == not_side:  # diagonal -x +y
@@ -223,7 +240,7 @@ class Playfield:
                             preliminary_list = []
                             break
             except:
-                pass
+                preliminary_list = []
 
             try:
                 if self.bricks[position_y+1][position_x+1].side == not_side:  # diagonal +x +y
@@ -245,7 +262,7 @@ class Playfield:
                             preliminary_list = []
                             break
             except:
-                pass
+                preliminary_list = []
 
             if x:  # byt spelares tur
                # print(str(position_x+1)+str(position_y+1)) # Debug tool
@@ -275,60 +292,67 @@ class Playfield:
             x_positive = 8 - position_x
             x_negative = position_x -1
             y_negative = position_y -1
+            try:
+                if self.bricks[y_negative][x_negative].side == not_side:  # diagonal -x -y
+                    for i in range(8):
+                        if self.bricks[position_y - (i + 1)][position_x - (i + 1)].side == not_side:
+                            preliminary_list.append(self.bricks[position_y - (i + 1)][position_x - (i + 1)])
 
-            if self.bricks[y_negative][x_negative].side == not_side:  # diagonal -x -y
-                for i in range(8):
-                    if self.bricks[position_y - (i + 1)][position_x - (i + 1)].side == not_side:
-                        preliminary_list.append(self.bricks[position_y - (i + 1)][position_x - (i + 1)])
+                        elif self.bricks[position_y - (i + 1)][position_x - (i + 1)].side == side and not position_x - (
+                                i + 1) == position_x - 1 and not position_y - (i + 1) == position_y - 1:
+                            for j in preliminary_list:
 
-                    elif self.bricks[position_y - (i + 1)][position_x - (i + 1)].side == side and not position_x - (
-                            i + 1) == position_x - 1 and not position_y - (i + 1) == position_y - 1:
-                        for j in preliminary_list:
-
-                            list.append(j)
-                        preliminary_list = []
-                        x = True
-                        break
-
-                    else:
-                        preliminary_list = []
-                        break
-
-            if self.bricks[position_y][x_negative].side == not_side:  # negative x
-                for i in range(8):
-                    if self.bricks[position_y][position_x-1-i].side == not_side:
-
-                        preliminary_list.append(self.bricks[position_y][position_x - (i + 1)])
-
-                    elif self.bricks[position_y][position_x-1-i].side == side and not position_x - i == position_x - 0:
-                        for j in preliminary_list:
-                            list.append(j)
+                                list.append(j)
+                            preliminary_list = []
                             x = True
+                            break
 
-                        preliminary_list = []
-                        break
+                        else:
+                            preliminary_list = []
+                            break
+            except:
+                preliminary_list = []
 
-                    else:
-                        preliminary_list = []
-                        break
+            try:
+                if self.bricks[position_y][x_negative].side == not_side:  # negative x
+                    for i in range(8):
+                        if self.bricks[position_y][position_x-1-i].side == not_side:
 
-            if self.bricks[y_negative][position_x].side == not_side:  # negative y
+                            preliminary_list.append(self.bricks[position_y][position_x - (i + 1)])
 
-                for i in range(8):
-                    if self.bricks[y_negative-i][position_x].side == not_side:
-                        preliminary_list.append(self.bricks[position_y - (i + 1)][position_x])
+                        elif self.bricks[position_y][position_x-1-i].side == side and not position_x - i == position_x - 0:
+                            for j in preliminary_list:
+                                list.append(j)
+                                x = True
 
-                    elif self.bricks[y_negative-i][position_x].side == side and not position_y-i == position_y-0:
-                        for j in preliminary_list:
-                            list.append(j)
-                            x = True
+                            preliminary_list = []
+                            break
 
-                        preliminary_list = []
-                        break
+                        else:
+                            preliminary_list = []
+                            break
+            except:
+                preliminary_list = []
+            try:
+                if self.bricks[y_negative][position_x].side == not_side:  # negative y
 
-                    else:
-                        preliminary_list = []
-                        break
+                    for i in range(8):
+                        if self.bricks[y_negative-i][position_x].side == not_side:
+                            preliminary_list.append(self.bricks[position_y - (i + 1)][position_x])
+
+                        elif self.bricks[y_negative-i][position_x].side == side and not position_y-i == position_y-0:
+                            for j in preliminary_list:
+                                list.append(j)
+                                x = True
+
+                            preliminary_list = []
+                            break
+
+                        else:
+                            preliminary_list = []
+                            break
+            except:
+                preliminary_list = []
             try:
                 if self.bricks[y_negative][position_x+1].side == not_side:  # diagonal +x -y
 
@@ -350,7 +374,7 @@ class Playfield:
                             preliminary_list = []
                             break
             except:
-                pass
+                preliminary_list = []
 
             try:
                 if self.bricks[position_y][position_x+1].side == not_side:  # positive x
@@ -373,7 +397,8 @@ class Playfield:
                             break
 
             except:
-                pass
+
+                preliminary_list = []
 
             try:
                 if self.bricks[position_y+1][position_x].side == not_side:  # positive y
@@ -394,8 +419,10 @@ class Playfield:
                             preliminary_list = []
                             break
 
+
             except:
-                pass
+
+                preliminary_list = []
 
             try:
                 if self.bricks[position_y+1][x_negative].side == not_side:  # diagonal -x +y
@@ -417,7 +444,7 @@ class Playfield:
                             preliminary_list = []
                             break
             except:
-                pass
+                preliminary_list = []
 
             try:
                 if self.bricks[position_y+1][position_x+1].side == not_side:  # diagonal +x +y
@@ -442,7 +469,7 @@ class Playfield:
 
                             break
             except:
-                pass
+                preliminary_list = []
 
             if x:  # byt spelares tur
                 list.append(self.bricks[position_y][position_x])
