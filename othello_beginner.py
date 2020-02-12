@@ -268,7 +268,7 @@ class Playfield:
                # print(str(position_x+1)+str(position_y+1)) # Debug tool
                 if self.bricks[position_y][position_x].pchangeble:
 
-                    self.list.append(str(position_y)+","+str(position_x))
+                    self.list.append(str(position_x+1)+","+str(position_y+1))
 
 
 
@@ -284,8 +284,8 @@ class Playfield:
         else:
             side = "○"
             not_side = "•"
-
-        if self.bricks[position_y][position_x].pchangeble:
+        print(self.bricks[position_y][position_x])
+        if self.bricks[position_y][position_x].pchangeble==True:
             list = []
             preliminary_list = []
             x = False
@@ -540,7 +540,7 @@ class Playfield:
 
                     yes=yes.split(",")
                     print(yes)
-                    self.player_change(int(yes[0])+1,int(yes[1])+1,"ai")
+                    self.player_change(int(yes[0])-1,int(yes[1])-1,"ai")
 
 
                 else:
@@ -588,7 +588,7 @@ class Playfield:
                 if self.bricks[i][j].side =="○":
                     p2_point+=1
         print(self.p1_name+ " Got "+ str(p1_point)+ " points.")
-        print(self.p2_name + " Got " + str(p2_point) + " points.")
+        print("The Ai got " + str(p2_point) + " points.")
         if p1_point<p2_point:
             print(self.p2_name+" wins!")
         else:
