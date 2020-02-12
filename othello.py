@@ -30,8 +30,8 @@ class Brick:
 class Playfield:
     def __init__(self, height, length):
 
-        self.list=[]
-        self.fails=0
+        self.list = []
+        self.fails = 0
         self.game_on = True
         self.ask = input("Input player one name: ")
         self.p1_name = self.ask
@@ -504,6 +504,7 @@ class Playfield:
 
             list = list + "\n"
         print(list)
+
     def exit_count(self):
         self.game_on=False
 

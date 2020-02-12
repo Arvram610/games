@@ -3,20 +3,17 @@ import os
 
 
 def clearscreen(numlines=100):
-    pass
-  #"""Clear the console.
-#numlines is an optional argument used only as a fall-back.
-#"""
-# Thanks to Steven D'Aprano, http://www.velocityreviews.com/forums
 
- # if os.name == "posix":
+
+
+  if os.name == "posix":
     # Unix/Linux/MacOS/BSD/etc
-  #  os.system('clear')
- # elif os.name in ("nt", "dos", "ce"):
-    # DOS/Windows
-  #  os.system('CLS')
-  #else:
-    # Fallback for other operating systems.
+    os.system('clear')
+  elif os.name in ("nt", "dos", "ce"):
+  #   DOS/Windows
+    os.system('CLS')
+  else:
+  #   Fallback for other operating systems.
     print('\n' * numlines)
 
 
@@ -511,7 +508,7 @@ class Playfield:
 
 
         while self.game_on:
-            #try:
+            try:
                 self.list=[]
                 for i in range(8):
                     for j in range(8):
@@ -574,10 +571,10 @@ class Playfield:
 
                         if self.bricks[self.position_y][self.position_x].pchangeble == True:
                             self.player_change(self.position_x, self.position_y, self.turn)
-         #   except:
-          #      clearscreen()
-          #      self.print()
-           #     print("oops, something went wrong...")
+            except:
+                clearscreen()
+                self.print()
+                print("oops, something went wrong...")
         clearscreen()
         p1_point = 0
         p2_point = 0
