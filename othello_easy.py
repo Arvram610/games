@@ -9,7 +9,7 @@ def clearscreen(numlines=100):
   elif os.name in ("nt", "dos", "ce"):
     os.system('CLS')
 
-  else
+  else:
     print('\n' * numlines)
 
 class Brick:
