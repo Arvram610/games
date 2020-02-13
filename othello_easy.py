@@ -12,6 +12,7 @@ def clearscreen(numlines=100):
   else:
     print('\n' * numlines)
 
+
 class Brick:
     def __init__(self):
         self.side = " "
@@ -61,7 +62,7 @@ class Playfield:
         self.bricks[position_y][position_x].side = side
         self.bricks[position_y][position_x].pchangeble = False
 
-    def checkifgameon(self,position_x,position_y,player):
+    def ai_point_check(self,position_x,position_y,player):
         if player == self.p1_name:
             side = "•"
             not_side = "○"
@@ -717,10 +718,14 @@ class Playfield:
                         input("Press enter to continue")
 
                 elif self.turn=="ai":
+                    self.points=[]
+                    for i in range(len(self.list)):
+                        yes_x=self.list[i].split(",")
+                        self.ai_point_check(int(yes_x[0]) - 1, int(yes_x[1]) - 1, "ai")
+                    i=self.points.index(max(self.points))
 
-                    print(self.list)
-
-                    i=random(0,len(self.list)-1)
+                    print(self.points.index(max(self.points)))
+                    i=self.points.index(max(self.points))
                     yes=self.list[i]
 
                     yes=yes.split(",")
