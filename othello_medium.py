@@ -787,7 +787,7 @@ class Playfield:
         print(self.p1_name+ " Got "+ str(p1_point)+ " points.")
         print("The Ai got " + str(p2_point) + " points.")
         if p1_point<p2_point:
-            print(self.p2_name+" wins!")
+            print("Ai wins!")
 
         else:
             print(self.p1_name+" wins!")
