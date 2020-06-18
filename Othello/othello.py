@@ -50,6 +50,7 @@ class Playfield:
                 x2 = Brick()
                 self.board[i][j] = x2.side
                 self.bricks[i][j] = x2
+        print(self.bricks)
         self.change(4, 3, "○")
         self.change(3, 4, "○")
         self.change(3, 3, "•")

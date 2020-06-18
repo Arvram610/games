@@ -3,7 +3,7 @@ class person():
         self.name=name
         self.number=number
 
-class phoneb(person): #skapar en klass med alla funktioner
+class phoneb(): #skapar en klass med alla funktioner
     def __init__(self):
         self.phonebook = []
     def add(self,name ,number):  # lägger till så att jag kan lägga till personer i katalogen
@@ -42,4 +42,4 @@ class phoneb(person): #skapar en klass med alla funktioner
             if y == False:
                 print("The word/number you searched for is not in the phonebook.")
 
-
+b1=phoneb()
