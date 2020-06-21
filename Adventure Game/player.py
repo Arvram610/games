@@ -23,7 +23,7 @@ class Player:
     def move(self, dx, dy):
         self.location_x += dx
         self.location_y += dy
-        print(world.tile_exists(self.location_x, self.location_y).intro_text)
+        print(world.tile_exists(self.location_x, self.location_y).intro_text())
 
     def move_north(self):
         self.move(dx=0, dy=-1)
@@ -37,7 +37,12 @@ class Player:
     def move_west(self):
         self.move(dx=-1, dy=0)
 
-    def equip_weapon(self, weapon):
+    def equip_weapon(self):
+        print("What Weapon do you want to use?")
+        for i in self.inventory:
+            if i.equippable:
+                print(i.name)
+        weapon = input(": ")
         equipped = False
         for i in self.inventory:
             if weapon == i.name and i.equippable:
