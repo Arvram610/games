@@ -11,6 +11,11 @@ class Action:
         return "{}: {}".format(self.hotkey, self.name)
 
 
+class Flee(Action):
+    def __init__(self, tile):
+        super().__init__(method=Player.flee, name="Flee", hotkey="f", tile=tile)
+
+
 class MoveNorth(Action):
     def __init__(self):
         super().__init__(method=Player.move_north, name='Move north', hotkey='n')
@@ -44,3 +49,9 @@ class Attack(Action):
 class ChangeWeapon(Action):
     def __init__(self):
         super().__init__(method=Player.equip_weapon, name="Equip", hotkey="e")
+
+
+class Pickup(Action):
+    def __init__(self):
+        super().__init__(method=Player.pickup, name="Pickup", hotkey="p")
+

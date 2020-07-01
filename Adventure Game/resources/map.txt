@@ -1,3 +1,5 @@
 		StartingRoom		
 		FindDaggerRoom		
 		AngryCatRoom		
+		OgreRoom		
+		ExitRoom		
