@@ -1,4 +1,5 @@
 import enemies, items, actions, world
+from time import sleep as wait
 
 
 class MapTile:
@@ -83,7 +84,6 @@ class LootRoom(MapTile):
         if not self.additems:
 
             self.roomitems_add(self.items)
-            print(self.roomitems[0].name)
             self.additems = True
 
 
@@ -112,7 +112,8 @@ class EnemyRoom(MapTile):
         self.discovered = True
         if self.enemy.is_alive():
             the_player.hp = the_player.hp - self.enemy.damage
-            print("Enemy does {} damage. You have {} HP remaining.".format(self.enemy.damage, the_player.hp))
+            print("Enemy does {} damage. You have {} HP remaining.\n".format(self.enemy.damage, the_player.hp))
+            wait(1)
 
 
 class EmptyRoom(MapTile):
@@ -133,11 +134,11 @@ class AngryCatRoom(EnemyRoom):
     def intro_text(self):
         if self.enemy.is_alive():
             return """
-Suddenly ANGRY CAT!
+You enter the room when: Suddenly an ANGRY CAT appears!!!
             """
         else:
             return """
-A rotting Corpse of a once angry cat.
+The room contains a rotting Corpse of a once angry cat.
             """
 
 
@@ -148,11 +149,11 @@ class OgreRoom(EnemyRoom):
     def intro_text(self):
         if self.enemy.is_alive():
             return """
-Suddenly A handsome Ogre!
+You enter the room when: Suddenly A handsome Ogre appears!!!
                 """
         else:
             return """
-The ogre has returned to his swamp.
+The room contains a rotting corpse of an Ogre.
                 """
 
 
@@ -171,9 +172,14 @@ class FindDaggerRoom(LootRoom):
         super().__init__(x=x, y=y, items=[items.Dagger()])
 
     def intro_text(self):
-        return """
-There is a Dagger on the floor. Things are looking brighter! \nYou pick it up.
-        """
+        if not len(self.items) == 0:
+            return """
+There is a Dagger on the floor. Hallelujah!
+            """
+        else:
+            return """
+It's another empty room.            
+            """
 
 
 class FindSwordRoom(LootRoom):
@@ -181,9 +187,14 @@ class FindSwordRoom(LootRoom):
         super().__init__(x=x, y=y, items=[items.Sword()])
 
     def intro_text(self):
-        return """
-There is a Sword on the floor. With this you will be unstoppable!!! \nYou pick it up.
-        """
+        if not len(self.items) == 0:
+            return """
+There is a Sword on the floor. With this you will be unstoppable!!!
+            """
+        else:
+            return """
+It's another empty room.            
+                    """
 
 
 class ExitRoom(MapTile):
