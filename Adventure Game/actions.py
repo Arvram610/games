@@ -1,4 +1,4 @@
-from player import Player
+import player as plr
 
 class Action:
     def __init__(self, method, name, hotkey, **kwargs):
@@ -13,45 +13,44 @@ class Action:
 
 class Flee(Action):
     def __init__(self, tile):
-        super().__init__(method=Player.flee, name="Flee", hotkey="f", tile=tile)
+        super().__init__(method=plr.Player.flee, name="Flee", hotkey="f", tile=tile)
 
 
 class MoveNorth(Action):
     def __init__(self):
-        super().__init__(method=Player.move_north, name='Move north', hotkey='n')
+        super().__init__(method=plr.Player.move_north, name='Move north', hotkey='n')
 
 
 class MoveSouth(Action):
     def __init__(self):
-        super().__init__(method=Player.move_south, name='Move south', hotkey='s')
+        super().__init__(method=plr.Player.move_south, name='Move south', hotkey='s')
 
 
 class MoveEast(Action):
     def __init__(self):
-        super().__init__(method=Player.move_east, name="Move East", hotkey="e")
+        super().__init__(method=plr.Player.move_east, name="Move East", hotkey="e")
 
 
 class MoveWest(Action):
     def __init__(self):
-        super().__init__(method=Player.move_west, name="Move West", hotkey="w")
+        super().__init__(method=plr.Player.move_west, name="Move West", hotkey="w")
 
 
 class ViewInventory(Action):
     def __init__(self):
-        super().__init__(method=Player.print_inventory, name="View Inventory", hotkey="i")
+        super().__init__(method=plr.Player.print_inventory, name="View Inventory", hotkey="i")
 
 
 class Attack(Action):
     def __init__(self, enemy):
-        super().__init__(method=Player.attack, name="Attack", hotkey="a", enemy=enemy)
+        super().__init__(method=plr.Player.attack, name="Attack", hotkey="a", enemy=enemy)
 
 
 class ChangeWeapon(Action):
     def __init__(self):
-        super().__init__(method=Player.equip_weapon, name="Equip", hotkey="e")
+        super().__init__(method=plr.Player.equip_weapon, name="Equip", hotkey="e")
 
 
 class Pickup(Action):
     def __init__(self):
-        super().__init__(method=Player.pickup, name="Pickup", hotkey="p")
-
+        super().__init__(method=plr.Player.pickup, name="Pickup", hotkey="p")

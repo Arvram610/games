@@ -8,8 +8,8 @@ class MapTile:
         self.roomitems = []
         self.discovered = False
 
-    def roomitems_add(self, RoomItems):
-        for i in RoomItems:
+    def roomitems_add(self, roomitems):
+        for i in roomitems:
             self.roomitems.append(i)
 
     def intro_text(self):
@@ -46,8 +46,6 @@ class MapTile:
         moves = self.adjacent_moves()
         moves.append(actions.ViewInventory())
         moves.append(actions.ChangeWeapon())
-
-
         return moves
 
 

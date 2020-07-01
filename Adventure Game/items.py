@@ -61,8 +61,3 @@ class Gold(Item):
         super().__init__(name="Gold",
                          description=f"A coin with {str(self.amt)} stamped on front.",
                          value=self.amt)
-
-
-
-
-

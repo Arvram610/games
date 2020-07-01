@@ -1,4 +1,4 @@
-import items, world, enemies
+import items, world
 from time import sleep as sleep
 from random import randint as randint
 
@@ -69,7 +69,7 @@ class Player:
                 self.inventory.remove(i)
                 equipped = True
         if not equipped:
-            print("Could not equip object: ", weapon,"\n")
+            print("Could not equip object: ", weapon, "\n")
         if equipped:
             print("Equipped item: ", weapon, "\n")
 
