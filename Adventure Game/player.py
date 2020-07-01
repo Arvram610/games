@@ -102,4 +102,3 @@ class Player:
 
         r = randint(0, len(available_moves) - 1)
         self.do_action(available_moves[r])
-
