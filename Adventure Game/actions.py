@@ -1,5 +1,6 @@
 import player as plr
 
+
 class Action:
     def __init__(self, method, name, hotkey, **kwargs):
         self.method = method
